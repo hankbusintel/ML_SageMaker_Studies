@@ -13112,7 +13112,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -13127,7 +13127,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
@@ -14097,14 +14097,48 @@ Sklearn vs pytorch</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># uncomment and fill in the line below!</span>
-<span class="c1"># &lt;name_of_deployed_predictor&gt;.delete_endpoint()</span>
+
+<span class="kn">import</span> <span class="nn">boto3</span>
+<span class="n">deployment_name</span> <span class="o">=</span> <span class="s1">&#39;sagemaker-scikit-learn-2021-06-18-18-53-21-529&#39;</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span><span class="s1">&#39;sagemaker&#39;</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">describe_endpoint_config</span><span class="p">(</span><span class="n">EndpointConfigName</span><span class="o">=</span><span class="n">deployment_name</span><span class="p">)</span>
+<span class="n">model_name</span> <span class="o">=</span> <span class="n">response</span><span class="p">[</span><span class="s1">&#39;ProductionVariants&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;ModelName&#39;</span><span class="p">]</span>
+<span class="n">client</span><span class="o">.</span><span class="n">delete_model</span><span class="p">(</span><span class="n">ModelName</span><span class="o">=</span><span class="n">model_name</span><span class="p">)</span>    
+<span class="n">client</span><span class="o">.</span><span class="n">delete_endpoint</span><span class="p">(</span><span class="n">EndpointName</span><span class="o">=</span><span class="n">deployment_name</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">delete_endpoint_config</span><span class="p">(</span><span class="n">EndpointConfigName</span><span class="o">=</span><span class="n">deployment_name</span><span class="p">)</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[2]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;ResponseMetadata&#39;: {&#39;RequestId&#39;: &#39;87e3689e-e016-457f-9a7f-d5b11989f431&#39;,
+  &#39;HTTPStatusCode&#39;: 200,
+  &#39;HTTPHeaders&#39;: {&#39;x-amzn-requestid&#39;: &#39;87e3689e-e016-457f-9a7f-d5b11989f431&#39;,
+   &#39;content-type&#39;: &#39;application/x-amz-json-1.1&#39;,
+   &#39;content-length&#39;: &#39;0&#39;,
+   &#39;date&#39;: &#39;Fri, 18 Jun 2021 21:03:30 GMT&#39;},
+  &#39;RetryAttempts&#39;: 0}}</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -14119,16 +14153,179 @@ Sklearn vs pytorch</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># deleting bucket, uncomment lines below</span>
 
-<span class="c1"># bucket_to_delete = boto3.resource(&#39;s3&#39;).Bucket(bucket)</span>
-<span class="c1"># bucket_to_delete.objects.all().delete()</span>
+<span class="n">bucket_to_delete</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span><span class="s1">&#39;s3&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">Bucket</span><span class="p">(</span><span class="n">bucket</span><span class="p">)</span>
+<span class="n">bucket_to_delete</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
 </pre></div>
 
     </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[7]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[{&#39;ResponseMetadata&#39;: {&#39;RequestId&#39;: &#39;WSKVTMJ38JG5VVFH&#39;,
+   &#39;HostId&#39;: &#39;fK3X149q+rqASVMJ2YLrJccFO8wZRSEJA1GC1G7IkkXNrpDXr6c2FT1kPOmhuVUwfsBlkKk/tVY=&#39;,
+   &#39;HTTPStatusCode&#39;: 200,
+   &#39;HTTPHeaders&#39;: {&#39;x-amz-id-2&#39;: &#39;fK3X149q+rqASVMJ2YLrJccFO8wZRSEJA1GC1G7IkkXNrpDXr6c2FT1kPOmhuVUwfsBlkKk/tVY=&#39;,
+    &#39;x-amz-request-id&#39;: &#39;WSKVTMJ38JG5VVFH&#39;,
+    &#39;date&#39;: &#39;Fri, 18 Jun 2021 21:05:46 GMT&#39;,
+    &#39;content-type&#39;: &#39;application/xml&#39;,
+    &#39;transfer-encoding&#39;: &#39;chunked&#39;,
+    &#39;server&#39;: &#39;AmazonS3&#39;,
+    &#39;connection&#39;: &#39;close&#39;},
+   &#39;RetryAttempts&#39;: 0},
+  &#39;Deleted&#39;: [{&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-reports/BatchSize.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/profiler-output/system/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;sagemaker/plagiarism_feature_engineering/test.csv&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/profiler-output/system/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-report.html&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-reports/StepOutlier.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/test/train.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-reports/Dataloader.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-22-52-14-945/profiler-output/system/incremental/2021061522/1623797880.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-report.html&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-record-sets/PCA-2021-06-12-00-40-00-887/matrix_0.pbr&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-reports/Dataloader.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/profiler-output/system/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-reports/BatchSize.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-22-52-14-945/profiler-output/system/incremental/2021061522/1623797940.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-reports/LowGPUUtilization.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/profiler-output/system/incremental/2021061417/1623692040.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-22-52-14-945/profiler-output/system/incremental/2021061522/1623797640.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/profiler-output/system/incremental/2021061200/1623458640.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/output/model.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/profiler-output/framework/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/profiler-output/system/incremental/2021061418/1623695880.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-reports/OverallFrameworkMetrics.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-reports/LoadBalancing.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-scikit-learn-2021-06-18-16-10-18-166/source/sourcedir.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-record-sets/PCA-2021-06-12-18-59-27-737/.amazon.manifest&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/profiler-output/system/incremental/2021061219/1623526080.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-scikit-learn-2021-06-18-17-38-03-657/source/sourcedir.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-18-36-21-157/profiler-output/framework/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-report.html&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/profiler-output/system/incremental/2021061418/1623695820.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-reports/IOBottleneck.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/profiler-output/system/incremental/2021061523/1623799080.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-reports/MaxInitializationTime.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-reports/MaxInitializationTime.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-reports/CPUBottleneck.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-pytorch-2021-06-15-17-13-26-401/source/sourcedir.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-reports/OverallSystemUsage.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-scikit-learn-2021-06-18-17-29-06-513/source/sourcedir.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/profiler-output/system/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-reports/LowGPUUtilization.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-18-36-21-157/profiler-output/system/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-reports/GPUMemoryIncrease.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/output/model.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-reports/OverallFrameworkMetrics.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/profiler-output/system/incremental/2021061523/1623798960.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-reports/GPUMemoryIncrease.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-reports/LoadBalancing.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-reports/StepOutlier.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-reports/LowGPUUtilization.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-reports/MaxInitializationTime.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/profiler-output/framework/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;sagemaker/plagiarism_feature_engineering/train.csv&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/profiler-output/framework/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-reports/BatchSize.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-scikit-learn-2021-06-18-18-53-21-529/source/sourcedir.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/profiler-output/system/incremental/2021061200/1623458700.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-reports/IOBottleneck.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker/moon-data/sagemaker-pytorch-2021-06-15-17-13-26-401/output/model.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-reports/LowGPUUtilization.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/profiler-output/framework/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-reports/MaxInitializationTime.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-record-sets/LinearLearner-2021-06-14-17-29-14-794/.amazon.manifest&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-reports/OverallSystemUsage.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-reports/OverallSystemUsage.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-reports/OverallFrameworkMetrics.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-record-sets/PCA-2021-06-12-18-59-27-737/matrix_0.pbr&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-scikit-learn-2021-06-18-18-47-49-369/source/sourcedir.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-22-52-14-945/profiler-output/system/incremental/2021061522/1623797700.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-report.ipynb&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/profiler-output/system/incremental/2021061417/1623691980.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-reports/Dataloader.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-reports/LowGPUUtilization.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-report.ipynb&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-reports/IOBottleneck.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-22-52-14-945/profiler-output/system/incremental/2021061522/1623797820.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-reports/GPUMemoryIncrease.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/profiler-output/system/incremental/2021061523/1623799140.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-record-sets/LinearLearner-2021-06-14-17-29-14-794/matrix_0.pbr&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-scikit-learn-2021-06-18-18-53-21-529/output/model.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-reports/CPUBottleneck.json&#39;},
+   {&#39;Key&#39;: &#39;s3://deepar-energy-consumption/test/train.json&#39;},
+   {&#39;Key&#39;: &#39;s3://deepar-energy-consumption/train/train.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-reports/OverallSystemUsage.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/train/train.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-reports/GPUMemoryIncrease.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-reports/Dataloader.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-reports/BatchSize.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-reports/MaxInitializationTime.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-reports/CPUBottleneck.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/profiler-output/system/incremental/2021061418/1623695760.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-record-sets/PCA-2021-06-12-00-40-00-887/.amazon.manifest&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-reports/CPUBottleneck.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-reports/IOBottleneck.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-18-36-21-157/output/model.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/profiler-output/system/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/output/model.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-report.html&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-22-52-14-945/profiler-output/system/incremental/2021061522/1623797760.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-18-36-21-157/profiler-output/system/incremental/2021061218/1623523140.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-reports/OverallFrameworkMetrics.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker/moon-data/sagemaker-pytorch-2021-06-15-17-13-26-401/debug-output/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-reports/Dataloader.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-report.ipynb&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-record-sets/PCA-2021-06-12-18-36-18-056/.amazon.manifest&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-record-sets/PCA-2021-06-12-18-36-18-056/matrix_0.pbr&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-reports/OverallFrameworkMetrics.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-pytorch-2021-06-15-17-22-05-545/sourcedir.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/rule-output/ProfilerReport-1623691821/profiler-output/profiler-reports/StepOutlier.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-report.ipynb&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-reports/BatchSize.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/profiler-output/system/incremental/2021061417/1623692100.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-reports/IOBottleneck.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-reports/LoadBalancing.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker/moon-data/train.csv&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-reports/OverallSystemUsage.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/profiler-output/framework/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-record-sets/PCA-2021-06-12-19-24-30-489/.amazon.manifest&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-report.ipynb&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-reports/LoadBalancing.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-scikit-learn-2021-06-18-18-40-54-601/source/sourcedir.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-reports/StepOutlier.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/profiler-output/system/incremental/2021061219/1623526140.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/rule-output/ProfilerReport-1623695589/profiler-output/profiler-reports/GPUMemoryIncrease.json&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-record-sets/PCA-2021-06-12-19-24-30-489/matrix_0.pbr&#39;},
+   {&#39;Key&#39;: &#39;sagemaker-scikit-learn-2021-06-18-18-53-21-529/debug-output/training_job_end.ts&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/rule-output/ProfilerReport-1623798866/profiler-output/profiler-reports/CPUBottleneck.json&#39;},
+   {&#39;Key&#39;: &#39;deepar-energy-consumption/output/forecasting-deepar-2021-06-15-23-14-26-850/profiler-output/system/incremental/2021061523/1623799020.algo-1.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-18-33-09-248/output/model.tar.gz&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-00-41-45-166/rule-output/ProfilerReport-1623458505/profiler-output/profiler-reports/StepOutlier.json&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-report.html&#39;},
+   {&#39;Key&#39;: &#39;counties/pca-2021-06-12-19-26-10-762/rule-output/ProfilerReport-1623525970/profiler-output/profiler-reports/LoadBalancing.json&#39;},
+   {&#39;Key&#39;: &#39;creditcard/linear-learner-2021-06-14-17-30-21-958/output/model.tar.gz&#39;}]}]</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
